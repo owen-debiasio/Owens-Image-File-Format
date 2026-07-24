@@ -46,17 +46,21 @@ pub fn convert_from_image(
 }
 
 fn convert_colors_to_hex(image: Image) -> Vec<String> {
-    image
-        .expect("")
+    let colors = image
+        .expect("Failed to load image")
         .pixels()
         .map(|(_, _, pixel)| {
             let [r, g, b, a] = pixel.0;
-            let color = format!("#{:02x}{:02x}{:02x}{:02x}", r, g, b, a);
+            let color = format!("#{r:02x}{g:02x}{b:02x}{a:02x}");
 
             print!("\r\x1B[KConverting color: {color}");
             stdout().flush().unwrap();
 
             color
         })
-        .collect()
+        .collect();
+
+    println!();
+
+    colors
 }
