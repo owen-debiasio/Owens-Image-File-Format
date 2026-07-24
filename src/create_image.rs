@@ -9,12 +9,10 @@ pub fn create_oiff_image(colors: Vec<String>, width: usize, height: usize, outpu
         ))
     }
 
-    write_to_file(output_path, "", false);
-
     write_to_file(
         output_path,
         &format!("Written with OIFF version: {VERSION}\n\n"),
-        true,
+        false,
     );
 
     write_to_file(
