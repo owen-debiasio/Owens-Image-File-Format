@@ -24,6 +24,12 @@ pub fn convert_from_image(
         error("not a supported image file (.png, .jpg, .jpeg supported)");
     }
 
+    if !output_path.ends_with(".oiff") {
+        error(&format!(
+            "Incorrect file output name: \"{output_path}\". Must end with \".oiff\"."
+        ))
+    }
+
     println!("image: {image_path}");
     println!("output: {output_path}\n");
 
