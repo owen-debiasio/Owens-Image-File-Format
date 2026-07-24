@@ -31,16 +31,18 @@ fn main() {
     let empty = String::new();
     let root_arg = args.first().unwrap_or(&empty);
 
-    let image_path = args.get(1).unwrap_or_else(|| error("Missing image path"));
-
     match root_arg.as_str() {
         "convert" => {
+            let image_path = args.get(1).unwrap_or_else(|| error("Missing image path"));
             let output_file = args.get(2).map(String::as_str).unwrap_or("");
 
             convert_from_image(image_path, output_file).expect("Failed to convert image");
         }
 
-        "display" => display_oiff_image(image_path),
+        "display" => {
+            let image_path = args.get(1).unwrap_or_else(|| error("Missing image path"));
+            display_oiff_image(image_path)
+        }
 
         _ => println!(
             "OIFF {VERSION}\n\

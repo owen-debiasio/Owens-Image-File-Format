@@ -1,7 +1,9 @@
 use minifb::{Key, ScaleMode, Window, WindowOptions};
 
 use crate::{
-    error, fs::{path_exists, read_file_to_string}, options::{Dimension, get_image_dim, load_oiff_colors},
+    error,
+    fs::{path_exists, read_file_to_string},
+    options::{get_image_dim, load_oiff_colors, Dimension},
 };
 
 pub fn display_oiff_image(path: &str) {

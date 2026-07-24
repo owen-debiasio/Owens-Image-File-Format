@@ -1,4 +1,7 @@
-use std::{env::var, io::{Write, stdout}};
+use std::{
+    env::var,
+    io::{stdout, Write},
+};
 
 use image::{DynamicImage, GenericImageView, ImageError};
 
@@ -13,7 +16,7 @@ pub fn convert_from_image(
     if !path_exists(image_path) {
         error(&format!("File does not exist: \"{image_path}\""))
     }
-    
+
     if !image_path.ends_with(".png")
         && !image_path.ends_with(".jpg")
         && !image_path.ends_with(".jpeg")
