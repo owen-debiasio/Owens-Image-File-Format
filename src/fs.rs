@@ -1,5 +1,5 @@
 use std::{
-    fs::{create_dir_all, read_to_string, OpenOptions},
+    fs::{create_dir_all, read_to_string, remove_file, File, OpenOptions},
     io::Write,
     path::Path,
 };
@@ -53,4 +53,28 @@ pub fn write_to_file(output: &str, contents: &str, append: bool) {
         .write_all(contents.as_bytes())
         .with_context(|| format!("Failed writing to file: {path}"))
         .expect("Failed to write contents");
+}
+
+pub fn create_file(file_to_be_created: &str) {
+    let path_of_file = expand_home_dir(file_to_be_created);
+    if let Some(parent_folder) = Path::new(&path_of_file).parent() {
+        create_dir_all(parent_folder)
+            .with_context(|| format!("Failed to create parent folder for: {path_of_file}"))
+            .expect("Failed to create parent folder");
+    }
+
+    if !path_exists(&path_of_file) {
+        File::create(&path_of_file)
+            .with_context(|| format!("Failed to create file: {path_of_file}"))
+            .expect("Failed to create file");
+    }
+}
+
+pub fn delete_file(path_of_file_to_delete: &str) {
+    let path = expand_home_dir(path_of_file_to_delete);
+    if path_exists(&path) {
+        remove_file(&path)
+            .with_context(|| format!("Failed to delete file: {path}"))
+            .expect("Failed to delete file");
+    }
 }

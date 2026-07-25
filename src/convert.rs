@@ -1,86 +1,101 @@
-use std::{
-    env::var,
-    io::{stdout, Write},
+use std::{env::var, error::Error};
+
+use crate::{
+    create_image::create_oiff_image,
+    error,
+    fs::{path_exists, read_file_to_string},
+    hex::{convert_colors_to_hex, parse_hex_color},
+    options::{get_image_dim, load_oiff_colors, Dimension},
 };
+use image::RgbaImage;
 
-use image::{DynamicImage, GenericImageView, ImageError};
+fn is_supported_image(path: &str) -> bool {
+    path.ends_with(".png")
+        || path.ends_with(".jpg")
+        || path.ends_with(".jpeg")
+        || path.ends_with(".webp")
+}
 
-use crate::{create_image::create_oiff_image, error, fs::path_exists};
-
-type Image = Result<DynamicImage, ImageError>;
-
-pub fn convert_to_oiff(
-    image_path: &str,
-    output_path: &str,
-) -> Result<(), Box<dyn std::error::Error>> {
-    if !path_exists(image_path) {
-        error(&format!("File does not exist: \"{image_path}\""))
+pub fn convert(input_path: &str, output_path: &str) -> Result<(), Box<dyn std::error::Error>> {
+    if !path_exists(input_path) {
+        error(&format!("File does not exist: \"{input_path}\""));
     }
 
-    if image_path.ends_with(".oiff") {
-        error("Converting \".oiff\" images to other formats is currently not supported!")
-    }
+    let input_lower = input_path.to_lowercase();
 
-    if !image_path.ends_with(".png")
-        && !image_path.ends_with(".jpg")
-        && !image_path.ends_with(".jpeg")
-        && !image_path.ends_with(".webp")
-    {
-        error("not a supported image file (.png, .jpg, .jpeg, .webp supported)");
+    if input_lower.ends_with(".oiff") {
+        convert_from_oiff(input_path, output_path)
+    } else if is_supported_image(&input_lower) {
+        convert_to_oiff(input_path, output_path)
+    } else {
+        error("Unsupported input format. Must be .png, .jpg, .jpeg, .webp, or .oiff");
     }
+}
 
-    if !output_path.ends_with(".oiff") {
+fn convert_to_oiff(image_path: &str, output_path: &str) -> Result<(), Box<dyn std::error::Error>> {
+    if !output_path.is_empty() && !output_path.ends_with(".oiff") {
         error(&format!(
             "Incorrect file output name: \"{output_path}\". Must end with \".oiff\"."
-        ))
+        ));
     }
 
-    println!("image: {image_path}");
-    println!("output: {output_path}\n");
-
-    let loaded_image = image::open(image_path)?;
-
-    let width = loaded_image.width().try_into().unwrap();
-    let height = loaded_image.height().try_into().unwrap();
-
-    let image_colors = convert_colors_to_hex(Ok(loaded_image.clone()), width, height);
-
     let resolved_output_path = if output_path.is_empty() {
-        var("HOME").unwrap_or_else(|_| ".".to_string())
+        format!(
+            "{}/output.oiff",
+            var("HOME").unwrap_or_else(|_| ".".to_string())
+        )
     } else {
         output_path.to_string()
     };
+
+    println!("image: {image_path}");
+    println!("output: {resolved_output_path}\n");
+
+    let loaded_image = image::open(image_path)?;
+    let width = loaded_image.width().try_into().unwrap();
+    let height = loaded_image.height().try_into().unwrap();
+
+    let image_colors = convert_colors_to_hex(&loaded_image, width, height);
 
     create_oiff_image(image_colors, width, height, &resolved_output_path);
 
     Ok(())
 }
 
-fn convert_colors_to_hex(image: Image, width: usize, height: usize) -> Vec<String> {
-    let color_amount = width * height;
-    let mut last_percent = 0;
+pub fn convert_from_oiff(oiff_path: &str, output_path: &str) -> Result<(), Box<dyn Error>> {
+    let output_lower = output_path.to_lowercase();
+    if !is_supported_image(&output_lower) {
+        error("Output format for .oiff must be one of: .png, .jpg, .jpeg, .webp");
+    }
 
-    let colors = image
-        .expect("Failed to load image")
-        .pixels()
-        .enumerate()
-        .map(|(index, (_, _, pixel))| {
-            let [r, g, b, a] = pixel.0;
-            let color = format!("#{r:02x}{g:02x}{b:02x}{a:02x}");
+    println!("input:  {oiff_path}");
+    println!("output: {output_path}\n");
 
-            let percent = ((index + 1) * 100) / color_amount;
+    let file_contents = read_file_to_string(oiff_path);
+    let width = get_image_dim(&file_contents, Dimension::Width) as u32;
+    let height = get_image_dim(&file_contents, Dimension::Height) as u32;
 
-            if percent > last_percent || index == 0 {
-                print!("\r\x1B[KConverting color: {color} ({percent}%)");
-                stdout().flush().unwrap();
-                last_percent = percent;
-            }
+    let total_pixels = (width * height) as usize;
 
-            color
-        })
-        .collect();
+    println!("Loading .oiff colors...");
+    let colors = load_oiff_colors(oiff_path);
 
-    println!();
+    if colors.len() != total_pixels {
+        error(&format!(
+            "Pixel count mismatch! Expected {total_pixels} pixels ({width}x{height}), but found {}.",
+            colors.len()
+        ));
+    }
 
-    colors
+    let raw_bytes: Vec<u8> = colors.iter().flat_map(|hex| parse_hex_color(hex)).collect();
+
+    if let Some(img_buffer) = RgbaImage::from_raw(width, height, raw_bytes) {
+        println!("Saving image to {output_path}...");
+        img_buffer.save(output_path)?;
+        println!("Done!");
+    } else {
+        error("Failed to construct image buffer from raw pixel bytes.");
+    }
+
+    Ok(())
 }
