@@ -16,7 +16,7 @@ fn is_supported_image(path: &str) -> bool {
         || path.ends_with(".webp")
 }
 
-pub fn convert(input_path: &str, output_path: &str) -> Result<(), Box<dyn std::error::Error>> {
+pub fn convert(input_path: &str, output_path: &str) -> Result<(), Box<dyn Error>> {
     if !path_exists(input_path) {
         error(&format!("File does not exist: \"{input_path}\""));
     }
@@ -24,15 +24,15 @@ pub fn convert(input_path: &str, output_path: &str) -> Result<(), Box<dyn std::e
     let input_lower = input_path.to_lowercase();
 
     if input_lower.ends_with(".oiff") {
-        convert_from_oiff(input_path, output_path)
+        from_oiff(input_path, output_path)
     } else if is_supported_image(&input_lower) {
-        convert_to_oiff(input_path, output_path)
+        to_oiff(input_path, output_path)
     } else {
         error("Unsupported input format. Must be .png, .jpg, .jpeg, .webp, or .oiff");
     }
 }
 
-fn convert_to_oiff(image_path: &str, output_path: &str) -> Result<(), Box<dyn std::error::Error>> {
+fn to_oiff(image_path: &str, output_path: &str) -> Result<(), Box<dyn Error>> {
     if !output_path.is_empty() && !output_path.ends_with(".oiff") {
         error(&format!(
             "Incorrect file output name: \"{output_path}\". Must end with \".oiff\"."
@@ -62,7 +62,7 @@ fn convert_to_oiff(image_path: &str, output_path: &str) -> Result<(), Box<dyn st
     Ok(())
 }
 
-pub fn convert_from_oiff(oiff_path: &str, output_path: &str) -> Result<(), Box<dyn Error>> {
+pub fn from_oiff(oiff_path: &str, output_path: &str) -> Result<(), Box<dyn Error>> {
     let output_lower = output_path.to_lowercase();
     if !is_supported_image(&output_lower) {
         error("Output format for .oiff must be one of: .png, .jpg, .jpeg, .webp");

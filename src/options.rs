@@ -8,26 +8,28 @@ pub fn load_oiff_colors(image_path: &str) -> Vec<String> {
     let width = get_image_dim(&file_contents, Dimension::Width);
     let height = get_image_dim(&file_contents, Dimension::Height);
 
-    let color_amount = width * height;
-
-    let mut colors = Vec::with_capacity(color_amount);
-    let mut last_percent = 0;
+    let total_pixels = width * height;
+    let mut colors = Vec::with_capacity(total_pixels);
 
     let color_lines = file_contents
         .lines()
         .map(|line| line.trim())
         .filter(|line| line.starts_with('#'));
 
-    for (index, line) in color_lines.enumerate() {
-        let percent = ((index + 1) * 100) / color_amount;
+    for line in color_lines {
+        let (hex_str, count) = match line.split_once(':') {
+            Some((hex, count_str)) => (hex, count_str.parse::<usize>().unwrap_or(1)),
+            None => (line, 1),
+        };
 
-        if percent > last_percent || index == 0 {
-            print!("\r\x1B[KReading color: {line} ({percent}%)");
-            stdout().flush().unwrap();
-            last_percent = percent;
+        for _ in 0..count {
+            colors.push(hex_str.to_string());
         }
 
-        colors.push(line.to_string());
+        let current = colors.len();
+        let percent = ((current * 100) / total_pixels).min(100);
+        print!("\r\x1B[KReading colors: {current}/{total_pixels} ({percent}%)");
+        stdout().flush().unwrap();
     }
 
     println!();

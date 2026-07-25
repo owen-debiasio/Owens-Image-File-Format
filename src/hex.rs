@@ -23,22 +23,47 @@ pub fn convert_colors_to_hex(image: &DynamicImage, width: usize, height: usize) 
 
     println!("Converting colors to hex values...");
 
-    let colors = image
-        .pixels()
-        .enumerate()
-        .map(|(index, (_, _, pixel))| {
-            let [r, g, b, a] = pixel.0;
-            let color = format!("#{r:02x}{g:02x}{b:02x}{a:02x}");
+    let mut colors = Vec::new();
+    let mut current_color = None;
+    let mut run_count = 0;
 
-            if index % update_interval == 0 || index == total_pixels - 1 {
-                let percent = ((index + 1) * 100) / total_pixels;
-                print!("\r\x1B[KConverting color: {color} ({percent}%)");
-                stdout().flush().unwrap();
+    for (index, (_, _, pixel)) in image.pixels().enumerate() {
+        let [r, g, b, a] = pixel.0;
+        let color = format!("#{r:02x}{g:02x}{b:02x}{a:02x}");
+
+        if index % update_interval == 0 || index == total_pixels - 1 {
+            let percent = ((index + 1) * 100) / total_pixels;
+            print!("\r\x1B[KConverting color: {color} ({percent}%)");
+            stdout().flush().unwrap();
+        }
+
+        match current_color.as_deref() {
+            Some(curr) if curr == color => {
+                run_count += 1;
             }
+            Some(curr) => {
+                if run_count > 1 {
+                    colors.push(format!("{curr}:{run_count}"));
+                } else {
+                    colors.push(curr.to_string());
+                }
+                current_color = Some(color);
+                run_count = 1;
+            }
+            None => {
+                current_color = Some(color);
+                run_count = 1;
+            }
+        }
+    }
 
-            color
-        })
-        .collect();
+    if let Some(curr) = current_color {
+        if run_count > 1 {
+            colors.push(format!("{curr}:{run_count}"));
+        } else {
+            colors.push(curr);
+        }
+    }
 
     println!();
     colors
