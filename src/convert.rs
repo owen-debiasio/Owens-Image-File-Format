@@ -36,7 +36,10 @@ pub fn convert_to_oiff(
 
     let loaded_image = image::open(image_path)?;
 
-    let image_colors = convert_colors_to_hex(Ok(loaded_image.clone()));
+    let width = loaded_image.width().try_into().unwrap();
+    let height = loaded_image.height().try_into().unwrap();
+
+    let image_colors = convert_colors_to_hex(Ok(loaded_image.clone()), width, height);
 
     let resolved_output_path = if output_path.is_empty() {
         var("HOME").unwrap_or_else(|_| ".".to_string())
@@ -44,24 +47,30 @@ pub fn convert_to_oiff(
         output_path.to_string()
     };
 
-    let width = loaded_image.width().try_into().unwrap();
-    let height = loaded_image.height().try_into().unwrap();
-
     create_oiff_image(image_colors, width, height, &resolved_output_path);
 
     Ok(())
 }
 
-fn convert_colors_to_hex(image: Image) -> Vec<String> {
+fn convert_colors_to_hex(image: Image, width: usize, height: usize) -> Vec<String> {
+    let color_amount = width * height;
+    let mut last_percent = 0;
+
     let colors = image
         .expect("Failed to load image")
         .pixels()
-        .map(|(_, _, pixel)| {
+        .enumerate()
+        .map(|(index, (_, _, pixel))| {
             let [r, g, b, a] = pixel.0;
             let color = format!("#{r:02x}{g:02x}{b:02x}{a:02x}");
 
-            print!("\r\x1B[KConverting color: {color}");
-            stdout().flush().unwrap();
+            let percent = ((index + 1) * 100) / color_amount;
+
+            if percent > last_percent || index == 0 {
+                print!("\r\x1B[KConverting color: {color} {percent}%");
+                stdout().flush().unwrap();
+                last_percent = percent;
+            }
 
             color
         })

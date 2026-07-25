@@ -1,13 +1,37 @@
+use std::io::{stdout, Write};
+
 use crate::fs::read_file_to_string;
 
 pub fn load_oiff_colors(image_path: &str) -> Vec<String> {
     let file_contents = read_file_to_string(image_path);
 
-    file_contents
+    let width = get_image_dim(&file_contents, Dimension::Width);
+    let height = get_image_dim(&file_contents, Dimension::Height);
+
+    let color_amount = width * height;
+
+    let mut colors = Vec::with_capacity(color_amount);
+    let mut last_percent = 0;
+
+    let color_lines = file_contents
         .lines()
-        .filter(|line| line.trim().starts_with('#'))
-        .map(|line| line.trim().to_string()) // Convert &str to owned String
-        .collect()
+        .map(|line| line.trim())
+        .filter(|line| line.starts_with('#'));
+
+    for (index, line) in color_lines.enumerate() {
+        let percent = ((index + 1) * 100) / color_amount;
+
+        if percent > last_percent || index == 0 {
+            print!("\r\x1B[KReading color: {line} ({percent}%)");
+            stdout().flush().unwrap();
+            last_percent = percent;
+        }
+
+        colors.push(line.to_string());
+    }
+
+    println!();
+    colors
 }
 
 #[derive(Debug, Clone, Copy)]
