@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=OIFF Image Viewer
+Comment=View and open OIFF image files
+Exec=oiff open_oiff
+Icon=oiff-viewer.png
+Terminal=false
+Categories=Graphics;Viewer;
+MimeType=image/x-oiff;

@@ -1,11 +1,17 @@
 #!/bin/bash
 
 echo building...
-rustfmt src/*
+cargo fmt
 cargo build --release
 
 echo copying oiff...
 sudo cp target/release/oiff /usr/local/bin/oiff
+
+echo copying oiff viewer...
+sudo cp oiff-viewer/oiff-viewer.desktop /usr/share/applications/oiff-viewer.desktop
+
+echo copying oiff viewer icon...
+sudo cp oiff-viewer/oiff-viewer.png /usr/share/icons/oiff-viewer.png
 
 echo copying thumbnailer...
 sudo cp thumbnailer/oiff.thumbnailer /usr/share/thumbnailers/oiff.thumbnailer
