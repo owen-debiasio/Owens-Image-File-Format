@@ -1,6 +1,6 @@
 use std::{env::args, process::exit};
 
-use crate::{convert::convert_from_image, display::display_oiff_image};
+use crate::{convert::convert_to_oiff, display::display_oiff_image};
 
 mod convert;
 mod create_image;
@@ -36,7 +36,7 @@ fn main() {
             let image_path = args.get(1).unwrap_or_else(|| error("Missing image path"));
             let output_file = args.get(2).map(String::as_str).unwrap_or("");
 
-            convert_from_image(image_path, output_file).expect("Failed to convert image");
+            convert_to_oiff(image_path, output_file).expect("Failed to convert image");
         }
 
         "display" => {

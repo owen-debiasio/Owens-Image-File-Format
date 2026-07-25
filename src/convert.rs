@@ -9,7 +9,7 @@ use crate::{create_image::create_oiff_image, error, fs::path_exists};
 
 type Image = Result<DynamicImage, ImageError>;
 
-pub fn convert_from_image(
+pub fn convert_to_oiff(
     image_path: &str,
     output_path: &str,
 ) -> Result<(), Box<dyn std::error::Error>> {
