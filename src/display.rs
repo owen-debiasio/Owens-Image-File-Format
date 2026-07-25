@@ -16,7 +16,7 @@ pub fn display_oiff_image(path: &str) {
     }
 
     if !path.ends_with(".oiff") {
-        error("Unsupported image format");
+        error("Please load a \".oiff\" file.");
     }
 
     let file_contents = read_file_to_string(path);
