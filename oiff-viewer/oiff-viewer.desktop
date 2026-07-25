@@ -4,4 +4,3 @@ Name=OIFF Image Viewer
 Exec=oiff display %f
 Icon=oiff-viewer.png
 MimeType=image/x-oiff;
-Hidden=true
