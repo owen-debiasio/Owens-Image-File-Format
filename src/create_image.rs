@@ -55,5 +55,5 @@ pub fn create_oiff_image(colors: Vec<String>, width: usize, height: usize, outpu
 
     write_to_file(output_path, &buffer, false);
 
-    println!("\n\ncreated image at {output_path}");
+    println!("\n\nCreated image at \"{output_path}\"");
 }
