@@ -29,6 +29,8 @@ pub fn convert_to_oiff(
         error(&format!(
             "Incorrect file output name: \"{output_path}\". Must end with \".oiff\"."
         ))
+    } else if image_path.ends_with(".oiff") {
+        error("Converting \".oiff\" images to other formats is currently not supported!")
     }
 
     println!("image: {image_path}");
