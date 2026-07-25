@@ -1,9 +1,6 @@
-use std::{
-    io::{stdout, Write},
-    process::exit,
-};
+use std::io::{stdout, Write};
 
-use crate::fs::read_file_to_string;
+use crate::{error, fs::read_file_to_string};
 
 pub fn load_oiff_colors(image_path: &str) -> Vec<String> {
     let file_contents = read_file_to_string(image_path);
@@ -58,8 +55,5 @@ pub fn get_image_dim(image_contents: &str, dim: Dimension) -> usize {
                 None
             }
         })
-        .unwrap_or_else(|| {
-            eprintln!("Failed to load image: Missing \"{target_key}\".");
-            exit(1);
-        })
+        .unwrap_or_else(|| error("Failed to retrieve image dimensions"))
 }

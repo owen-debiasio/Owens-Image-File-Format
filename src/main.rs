@@ -9,7 +9,7 @@ mod fs;
 mod options;
 
 fn error(text: &str) -> ! {
-    println!("\nERROR: {text}");
+    eprintln!("\nERROR: {text}");
     exit(1)
 }
 
