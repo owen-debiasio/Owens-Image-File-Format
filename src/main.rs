@@ -1,9 +1,6 @@
 use std::{env::args, process::exit};
 
-use crate::{
-    convert::convert, display::display_oiff_image, gui::picker::open_oiff,
-    thumbnailer::generate_thumb,
-};
+use crate::{convert::convert, display::display_oiff_image, thumbnailer::generate_thumb};
 
 mod convert;
 mod create_image;
@@ -11,8 +8,6 @@ mod display;
 mod fs;
 mod hex;
 mod options;
-
-mod gui;
 
 // This is a hidden command where the user never needs to generate a thumbnail
 mod thumbnailer;
@@ -65,9 +60,6 @@ fn main() {
 
             generate_thumb(input_path, output_path, size).expect("Failed to generate thumbnail");
         }
-
-        // Also a hidden command
-        "open_oiff" => open_oiff(),
 
         _ => println!(
             "OIFF {VERSION}\n\
