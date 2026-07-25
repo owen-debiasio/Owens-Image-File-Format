@@ -23,7 +23,7 @@ fn get_args() -> Vec<String> {
     arg_vec
 }
 
-pub static VERSION: &str = "v0.1.0";
+pub static VERSION: &str = "v0.2.0";
 
 fn main() {
     let args = get_args();
