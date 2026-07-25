@@ -1,4 +1,7 @@
-use std::io::{stdout, Write};
+use std::{
+    io::{stdout, Write},
+    process::exit,
+};
 
 use crate::fs::read_file_to_string;
 
@@ -34,7 +37,6 @@ pub fn load_oiff_colors(image_path: &str) -> Vec<String> {
     colors
 }
 
-#[derive(Debug, Clone, Copy)]
 pub enum Dimension {
     Width,
     Height,
@@ -58,6 +60,6 @@ pub fn get_image_dim(image_contents: &str, dim: Dimension) -> usize {
         })
         .unwrap_or_else(|| {
             eprintln!("Failed to load image: Missing \"{target_key}\".");
-            std::process::exit(1);
+            exit(1);
         })
 }
