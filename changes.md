@@ -7,3 +7,4 @@
 - Add support for image thumbnails on select file managers
 - Add converting `.oiff` images to other formats
 - Add an application for viewing `.oiff` images
+- Dramatically shrink file size of generated `.oiff` photos
