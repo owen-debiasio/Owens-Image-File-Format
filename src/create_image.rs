@@ -1,6 +1,23 @@
 use crate::{error, fs::write_to_file, VERSION};
 use std::io::{stdout, Write};
 
+fn calculate_file_size(bytes: usize) -> String {
+    let units = ["Bytes", "KB", "MB", "GB", "TB"]; // Added "Bytes"
+    if bytes == 0 {
+        return "0 Bytes".to_string();
+    }
+
+    let mut size = bytes as f64;
+    let mut unit_index = 0;
+
+    while size >= 1024.0 && unit_index < units.len() - 1 {
+        size /= 1024.0;
+        unit_index += 1;
+    }
+
+    format!("{size:.2} {}", units[unit_index])
+}
+
 pub fn create_oiff_image(colors: Vec<String>, width: usize, height: usize, output_path: &str) {
     if !output_path.ends_with(".oiff") {
         error(&format!(
@@ -9,11 +26,18 @@ pub fn create_oiff_image(colors: Vec<String>, width: usize, height: usize, outpu
     }
 
     let color_amount = colors.len();
-    let mut last_percent = 0;
+    let estimated_bytes = (color_amount * 10) + 100;
+
+    println!(
+        "Estimated file size: {}",
+        calculate_file_size(estimated_bytes)
+    );
 
     let mut buffer = String::with_capacity(color_amount * 10 + 100);
     buffer.push_str(&format!("Written with OIFF version: {VERSION}\n\n"));
     buffer.push_str(&format!("WIDTH={width}\nHEIGHT={height}\n\n"));
+
+    let mut last_percent = 0;
 
     for (index, color) in colors.iter().enumerate() {
         let percent = ((index + 1) * 100) / color_amount;
