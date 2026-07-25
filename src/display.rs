@@ -80,11 +80,11 @@ pub fn display_oiff_image(path: &str) {
 
     println!("Starting window...");
 
+    window
+        .update_with_buffer(&buffer, width, height)
+        .unwrap_or_else(|e| panic!("Failed to draw initial frame: {e}"));
+
     while window.is_open() && !window.is_key_down(Key::Escape) {
-        window
-            .update_with_buffer(&buffer, width, height)
-            .unwrap_or_else(|error| {
-                panic!("Failed to update window: {error}");
-            });
+        window.update();
     }
 }
