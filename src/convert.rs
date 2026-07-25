@@ -20,8 +20,9 @@ pub fn convert_from_image(
     if !image_path.ends_with(".png")
         && !image_path.ends_with(".jpg")
         && !image_path.ends_with(".jpeg")
+        && !image_path.ends_with(".webp")
     {
-        error("not a supported image file (.png, .jpg, .jpeg supported)");
+        error("not a supported image file (.png, .jpg, .jpeg, .webp supported)");
     }
 
     if !output_path.ends_with(".oiff") {
