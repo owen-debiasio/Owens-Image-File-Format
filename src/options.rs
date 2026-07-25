@@ -1,4 +1,7 @@
-use std::io::{Write, stdout};
+use std::{
+    io::{Write, stdout},
+    iter::repeat_n,
+};
 
 use crate::{error, fs::read_file_to_string};
 
@@ -10,26 +13,29 @@ pub fn load_oiff_colors(image_path: &str) -> Vec<String> {
 
     let total_pixels = width * height;
     let mut colors = Vec::with_capacity(total_pixels);
+    let mut last_percent = 0;
 
     let color_lines = file_contents
         .lines()
         .map(|line| line.trim())
         .filter(|line| line.starts_with('#'));
 
-    for line in color_lines {
+    for (line_index, line) in color_lines.enumerate() {
         let (hex_str, count) = match line.split_once(':') {
             Some((hex, count_str)) => (hex, count_str.parse::<usize>().unwrap_or(1)),
             None => (line, 1),
         };
 
-        for _ in 0..count {
-            colors.push(hex_str.to_string());
-        }
+        colors.extend(repeat_n(hex_str.to_string(), count));
 
         let current = colors.len();
         let percent = ((current * 100) / total_pixels).min(100);
-        print!("\r\x1B[KReading colors: {current}/{total_pixels} ({percent}%)");
-        stdout().flush().unwrap();
+
+        if percent > last_percent || line_index == 0 {
+            print!("\r\x1B[KReading colors: {current}/{total_pixels} ({percent}%)");
+            stdout().flush().unwrap();
+            last_percent = percent;
+        }
     }
 
     println!();
