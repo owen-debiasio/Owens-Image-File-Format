@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo building...
+rustfmt src/*
 cargo build --release
 
 echo copying file...
