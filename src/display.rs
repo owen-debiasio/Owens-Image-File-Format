@@ -1,6 +1,6 @@
 use std::io::{Write, stdout};
 
-use minifb::{Key, Window, WindowOptions};
+use minifb::{Window, WindowOptions};
 
 use crate::{
     error,
@@ -71,6 +71,7 @@ pub fn display_oiff_image(path: &str) {
         rendered_width,
         rendered_height,
         WindowOptions {
+            resize: true,
             ..WindowOptions::default()
         },
     )
@@ -82,9 +83,9 @@ pub fn display_oiff_image(path: &str) {
 
     window
         .update_with_buffer(&buffer, width, height)
-        .unwrap_or_else(|e| panic!("Failed to draw initial frame: {e}"));
+        .unwrap_or_else(|e| error(&format!("Failed to draw initial frame: {e}")));
 
-    while window.is_open() && !window.is_key_down(Key::Escape) {
+    while window.is_open() {
         window.update();
     }
 }

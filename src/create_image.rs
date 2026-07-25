@@ -2,7 +2,7 @@ use crate::{VERSION, error, fs::write_to_file};
 use std::io::{Write, stdout};
 
 fn calculate_file_size(bytes: usize) -> String {
-    let units = ["Bytes", "KB", "MB", "GB", "TB"]; // Added "Bytes"
+    let units = ["Bytes", "KB", "MB", "GB", "TB"];
     if bytes == 0 {
         return "0 Bytes".to_string();
     }
