@@ -1,11 +1,11 @@
-use std::io::{stdout, Write};
+use std::io::{Write, stdout};
 
 use minifb::{Key, Window, WindowOptions};
 
 use crate::{
     error,
     fs::{path_exists, read_file_to_string},
-    options::{get_image_dim, load_oiff_colors, Dimension},
+    options::{Dimension, get_image_dim, load_oiff_colors},
 };
 
 pub fn display_oiff_image(path: &str) {

@@ -1,5 +1,5 @@
-use crate::{error, fs::write_to_file, VERSION};
-use std::io::{stdout, Write};
+use crate::{VERSION, error, fs::write_to_file};
+use std::io::{Write, stdout};
 
 fn calculate_file_size(bytes: usize) -> String {
     let units = ["Bytes", "KB", "MB", "GB", "TB"]; // Added "Bytes"

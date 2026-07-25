@@ -5,7 +5,7 @@ use crate::{
     error,
     fs::{path_exists, read_file_to_string},
     hex::{convert_colors_to_hex, parse_hex_color},
-    options::{get_image_dim, load_oiff_colors, Dimension},
+    options::{Dimension, get_image_dim, load_oiff_colors},
 };
 use image::RgbaImage;
 

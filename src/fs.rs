@@ -1,5 +1,5 @@
 use std::{
-    fs::{create_dir_all, read_to_string, remove_file, File, OpenOptions},
+    fs::{File, OpenOptions, create_dir_all, read_to_string, remove_file},
     io::Write,
     path::Path,
 };
