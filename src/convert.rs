@@ -67,7 +67,7 @@ fn convert_colors_to_hex(image: Image, width: usize, height: usize) -> Vec<Strin
             let percent = ((index + 1) * 100) / color_amount;
 
             if percent > last_percent || index == 0 {
-                print!("\r\x1B[KConverting color: {color} {percent}%");
+                print!("\r\x1B[KConverting color: {color} ({percent}%)");
                 stdout().flush().unwrap();
                 last_percent = percent;
             }
