@@ -26,7 +26,8 @@ pub fn create_oiff_image(colors: Vec<String>, width: usize, height: usize, outpu
     }
 
     let color_amount = colors.len();
-    let estimated_bytes = (color_amount * 10) + 100;
+    let estimated_bytes =
+        (color_amount * 10) + 100 + (50 + (width.to_string().len() + height.to_string().len()));
 
     println!(
         "Estimated file size: {}",
