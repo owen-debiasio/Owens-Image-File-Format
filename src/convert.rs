@@ -87,7 +87,7 @@ pub fn from_oiff(oiff_path: &str, output_path: &str) -> Result<(), Box<dyn Error
         ));
     }
 
-    let raw_bytes: Vec<u8> = colors.iter().flat_map(|hex| parse_hex_color(hex)).collect();
+    let raw_bytes = colors.iter().flat_map(|hex| parse_hex_color(hex)).collect();
 
     if let Some(img_buffer) = RgbaImage::from_raw(width, height, raw_bytes) {
         println!("Saving image to {output_path}...");
