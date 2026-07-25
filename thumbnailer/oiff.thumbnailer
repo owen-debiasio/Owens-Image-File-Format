@@ -1,0 +1,4 @@
+[Thumbnailer Entry]
+TryExec=oiff
+Exec=oiff thumbnail %i %o %s
+MimeType=image/x-oiff;

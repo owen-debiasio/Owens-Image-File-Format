@@ -1,12 +1,16 @@
 use std::{env::args, process::exit};
 
-use crate::{convert::convert_to_oiff, display::display_oiff_image};
+use crate::{convert::convert, display::display_oiff_image, thumbnailer::generate_thumb};
 
 mod convert;
 mod create_image;
 mod display;
 mod fs;
+mod hex;
 mod options;
+
+// This is a hidden command where the user never needs to generate a thumbnail
+mod thumbnailer;
 
 fn error(text: &str) -> ! {
     eprintln!("\nERROR: {text}");
@@ -36,12 +40,25 @@ fn main() {
             let image_path = args.get(1).unwrap_or_else(|| error("Missing image path"));
             let output_file = args.get(2).map(String::as_str).unwrap_or("");
 
-            convert_to_oiff(image_path, output_file).expect("Failed to convert image");
+            convert(image_path, output_file).expect("Failed to convert image");
         }
 
         "display" => {
             let image_path = args.get(1).unwrap_or_else(|| error("Missing image path"));
             display_oiff_image(image_path)
+        }
+
+        // This is a hidden command where the user never needs to generate a thumbnail
+        "thumbnail" => {
+            let input_path = args
+                .get(1)
+                .unwrap_or_else(|| error("Missing input image path"));
+            let output_path = args
+                .get(2)
+                .unwrap_or_else(|| error("Missing output image path"));
+            let size = args.get(3).and_then(|s| s.parse().ok()).unwrap_or(128);
+
+            generate_thumb(input_path, output_path, size).expect("Failed to generate thumbnail");
         }
 
         _ => println!(

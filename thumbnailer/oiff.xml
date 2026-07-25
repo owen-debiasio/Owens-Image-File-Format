@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+    <mime-type type="image/x-oiff">
+        <comment>OIFF Image</comment>
+        <glob pattern="*.oiff"/>
+    </mime-type>
+</mime-info>
