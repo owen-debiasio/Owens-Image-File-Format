@@ -3,6 +3,7 @@
         "Lanczos",
         "minifb",
         "oiff",
-        "thumbnailer"
+        "thumbnailer",
+        "thumbnailers"
     ]
 }
