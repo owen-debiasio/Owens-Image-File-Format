@@ -1,4 +1,4 @@
-use std::{error::Error, process::id};
+use std::{error::Error, process::id as process_id};
 
 use crate::{
     convert::from_oiff,
@@ -11,7 +11,7 @@ pub fn generate_thumb(oiff_path: &str, output_path: &str, size: u32) -> Result<(
         error(&format!("Input file does not exist: \"{oiff_path}\""))
     }
 
-    let temp_png_path = format!("/tmp/oiff_preview_{}.png", id());
+    let temp_png_path = format!("/tmp/oiff_preview_{}.png", process_id());
 
     from_oiff(oiff_path, &temp_png_path)?;
 
