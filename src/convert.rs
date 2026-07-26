@@ -7,7 +7,7 @@ use crate::{
     hex::{convert_colors_to_hex, parse_hex_color},
     options::{Dimension, get_image_dim, load_oiff_colors},
 };
-use image::RgbaImage;
+use image::{DynamicImage, RgbaImage};
 
 fn is_supported_image(path: &str) -> bool {
     path.ends_with(".png")
@@ -91,10 +91,18 @@ pub fn from_oiff(oiff_path: &str, output_path: &str) -> Result<(), Box<dyn Error
 
     if let Some(img_buffer) = RgbaImage::from_raw(width, height, raw_bytes) {
         println!("Saving image to {output_path}...");
-        img_buffer.save(output_path)?;
+
+        let dynamic_img = DynamicImage::ImageRgba8(img_buffer);
+
+        if output_lower.ends_with(".jpg") || output_lower.ends_with(".jpeg") {
+            dynamic_img.to_rgb8().save(output_path)?;
+        } else {
+            dynamic_img.save(output_path)?;
+        }
+
         println!("Done!");
     } else {
-        error("Failed to construct image buffer from raw pixel bytes.");
+        error("Failed to convert image.");
     }
 
     Ok(())
