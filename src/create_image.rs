@@ -26,8 +26,11 @@ pub fn create_oiff_image(colors: Vec<String>, width: usize, height: usize, outpu
     }
 
     let color_amount = colors.len();
-    let estimated_bytes =
-        (color_amount * 10) + 100 + (50 + (width.to_string().len() + height.to_string().len()));
+
+    let width_len = width.to_string().len();
+    let height_len = height.to_string().len();
+
+    let estimated_bytes = (color_amount * 10) + 100 + (50 + (width_len + height_len));
 
     println!(
         "Estimated file size: {}",
@@ -46,7 +49,10 @@ pub fn create_oiff_image(colors: Vec<String>, width: usize, height: usize, outpu
         if percent > last_percent || index == 0 {
             print!(
                 "\r\x1B[KWriting color: {} ({percent}%)",
-                color.split(':').next().unwrap()
+                color
+                    .split(':')
+                    .next()
+                    .unwrap_or_else(|| error("Failed to write color to buffer"))
             );
             stdout().flush().unwrap();
             last_percent = percent;

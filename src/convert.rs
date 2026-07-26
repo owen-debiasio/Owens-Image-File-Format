@@ -48,12 +48,19 @@ fn to_oiff(image_path: &str, output_path: &str) -> Result<(), Box<dyn Error>> {
         output_path.to_string()
     };
 
-    println!("image: {image_path}");
-    println!("output: {resolved_output_path}\n");
+    println!("Input image: {image_path}");
+    println!("Output image: {resolved_output_path}\n");
 
-    let loaded_image = image::open(image_path)?;
-    let width = loaded_image.width().try_into().unwrap();
-    let height = loaded_image.height().try_into().unwrap();
+    let loaded_image = image::open(image_path)
+        .unwrap_or_else(|e| error(&format!("Failed to open image \"{image_path}\": {e}")));
+    let width = loaded_image
+        .width()
+        .try_into()
+        .unwrap_or_else(|e| error(&format!("Failed to retrieve image width: {e}")));
+    let height = loaded_image
+        .height()
+        .try_into()
+        .unwrap_or_else(|e| error(&format!("Failed to retrieve image height: {e}")));
 
     let image_colors = convert_colors_to_hex(&loaded_image, width, height);
 
@@ -68,8 +75,8 @@ pub fn from_oiff(oiff_path: &str, output_path: &str) -> Result<(), Box<dyn Error
         error("Output format for .oiff must be one of: .png, .jpg, .jpeg, .webp");
     }
 
-    println!("input:  {oiff_path}");
-    println!("output: {output_path}\n");
+    println!("Input image:  {oiff_path}");
+    println!("Output image: {output_path}\n");
 
     let file_contents = read_file_to_string(oiff_path);
     let width = get_image_dim(&file_contents, Dimension::Width) as u32;
@@ -92,12 +99,12 @@ pub fn from_oiff(oiff_path: &str, output_path: &str) -> Result<(), Box<dyn Error
     if let Some(img_buffer) = RgbaImage::from_raw(width, height, raw_bytes) {
         println!("Saving image to {output_path}...");
 
-        let dynamic_img = DynamicImage::ImageRgba8(img_buffer);
+        let output_image = DynamicImage::ImageRgba8(img_buffer);
 
         if output_lower.ends_with(".jpg") || output_lower.ends_with(".jpeg") {
-            dynamic_img.to_rgb8().save(output_path)?;
+            output_image.to_rgb8().save(output_path)?;
         } else {
-            dynamic_img.save(output_path)?;
+            output_image.save(output_path)?;
         }
 
         println!("Done!");

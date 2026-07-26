@@ -38,9 +38,13 @@ fn main() {
     match root_arg.as_str() {
         "convert" => {
             let image_path = args.get(1).unwrap_or_else(|| error("Missing image path"));
-            let output_file = args.get(2).map(String::as_str).unwrap_or("");
+            let output_file = args
+                .get(2)
+                .map(String::as_str)
+                .unwrap_or_else(|| error("Missing output file"));
 
-            convert(image_path, output_file).expect("Failed to convert image");
+            convert(image_path, output_file)
+                .unwrap_or_else(|e| error(&format!("Failed to convert image: {e}")));
         }
 
         "display" => {
@@ -58,7 +62,8 @@ fn main() {
                 .unwrap_or_else(|| error("Missing output image path"));
             let size = args.get(3).and_then(|s| s.parse().ok()).unwrap_or(128);
 
-            generate_thumb(input_path, output_path, size).expect("Failed to generate thumbnail");
+            generate_thumb(input_path, output_path, size)
+                .unwrap_or_else(|e| error(&format!("Failed to generate thumbnail: {e}")));
         }
 
         _ => println!(

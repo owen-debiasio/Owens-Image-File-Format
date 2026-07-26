@@ -76,7 +76,7 @@ pub fn display_oiff_image(path: &str) {
         },
     )
     .unwrap_or_else(|e| {
-        panic!("Failed to display image: {e}");
+        error(&format!("Failed to display image: {e}"));
     });
 
     println!("Starting window...");
