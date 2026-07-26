@@ -26,12 +26,20 @@ pub fn display_oiff_image(path: &str) {
 
     println!("Loaded image dimensions: {width}x{height}");
 
-    let mut buffer = vec![0x00FFFFFF; width * height];
+    let mut buffer = vec![0x00000000; width * height];
 
     println!("Initializing colors...");
 
     let colors = load_oiff_colors(path);
     let total = width * height;
+
+    if colors.len() != total {
+        error(&format!(
+            "Color count mismatch! Expected {total} pixels ({width}x{height}), but got {}.",
+            colors.len()
+        ));
+    }
+
     let mut last_percent = 0;
 
     for (color_index, color_str) in colors.iter().enumerate().take(total) {
@@ -45,24 +53,49 @@ pub fn display_oiff_image(path: &str) {
 
         let clean_hex = color_str.trim_start_matches('#');
 
-        if let Some(pixel_color) = clean_hex
-            .get(..6)
-            .and_then(|color_string| u32::from_str_radix(color_string, 16).ok())
-        {
-            buffer[color_index] = pixel_color;
-        }
+        let pixel_color = match clean_hex.len() {
+            8 => {
+                let alpha = u32::from_str_radix(&clean_hex[6..8], 16).unwrap_or(255);
+
+                if alpha == 0 {
+                    0x00000000
+                } else {
+                    let r = u32::from_str_radix(&clean_hex[0..2], 16).unwrap_or(0);
+                    let g = u32::from_str_radix(&clean_hex[2..4], 16).unwrap_or(0);
+                    let b = u32::from_str_radix(&clean_hex[4..6], 16).unwrap_or(0);
+                    (r << 16) | (g << 8) | b
+                }
+            }
+            6 => u32::from_str_radix(clean_hex, 16).unwrap_or(0x00000000),
+            _ => 0x00000000,
+        };
+
+        buffer[color_index] = pixel_color;
     }
 
     println!();
 
-    let max_target_dim = 800.0;
     let max_image_dim = width.max(height) as f32;
-    let scale_factor = (max_target_dim / max_image_dim).min(1.0);
+
+    let min_target_dim = 400.0;
+    let max_target_dim = 800.0;
+
+    let target_dim = if max_image_dim < min_target_dim {
+        min_target_dim
+    } else if max_image_dim > max_target_dim {
+        max_target_dim
+    } else {
+        max_image_dim
+    };
+
+    let scale_factor = target_dim / max_image_dim;
 
     let rendered_width = ((width as f32) * scale_factor).round() as usize;
     let rendered_height = ((height as f32) * scale_factor).round() as usize;
 
-    println!("Rendered window dimensions: {rendered_width}x{rendered_height}");
+    println!(
+        "Rendered window dimensions: {rendered_width}x{rendered_height} (Scale: {scale_factor:.2}x)"
+    );
 
     println!("Initializing window...");
 
