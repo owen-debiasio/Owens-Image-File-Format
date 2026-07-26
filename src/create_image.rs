@@ -44,7 +44,10 @@ pub fn create_oiff_image(colors: Vec<String>, width: usize, height: usize, outpu
         let percent = ((index + 1) * 100) / color_amount;
 
         if percent > last_percent || index == 0 {
-            print!("\r\x1B[KWriting color: {color} ({percent}%)");
+            print!(
+                "\r\x1B[KWriting color: {} ({percent}%)",
+                color.split(':').next().unwrap()
+            );
             stdout().flush().unwrap();
             last_percent = percent;
         }
