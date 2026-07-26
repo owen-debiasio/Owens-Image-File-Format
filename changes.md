@@ -13,3 +13,4 @@
 
 - When writing colors, the part of the hex `:<times>` isn't shown
 - Fixed converting `.oiff` to `.jpg`/`.jpeg`
+- Enhanced error messages
