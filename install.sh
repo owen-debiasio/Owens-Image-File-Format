@@ -1,6 +1,8 @@
 #!/bin/bash
 
 echo building...
+rustup update
+cargo update
 cargo fmt
 cargo build --release
 
