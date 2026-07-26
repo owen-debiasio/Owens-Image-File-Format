@@ -12,6 +12,8 @@ mod options;
 // This is a hidden command where the user never needs to generate a thumbnail
 mod thumbnailer;
 
+pub static VERSION: &str = "v0.3.0";
+
 fn error(text: &str) -> ! {
     eprintln!("\nERROR: {text}");
     exit(1)
@@ -26,8 +28,6 @@ fn get_args() -> Vec<String> {
 
     arg_vec
 }
-
-pub static VERSION: &str = "v0.2.0";
 
 fn main() {
     let args = get_args();
