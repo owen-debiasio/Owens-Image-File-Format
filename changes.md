@@ -8,3 +8,7 @@
 - Add converting `.oiff` images to other formats
 - Add an application for viewing `.oiff` images
 - Dramatically shrink file size of generated `.oiff` photos
+
+## v0.3.0
+
+- When writing colors, the part of the hex `:<times>` isn't shown
