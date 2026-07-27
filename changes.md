@@ -15,3 +15,4 @@
 - Fixed converting `.oiff` to `.jpg`/`.jpeg`
 - Enhanced error messages
 - Implement fixes for displaying transparent images
+- Added flag `--version` to show the version
