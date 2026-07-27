@@ -3,5 +3,6 @@
 Type=Application
 Name=OIFF Image Viewer
 Exec=oiff display %f
+Categories=Graphics;2DGraphics;Utility;
 Icon=/usr/share/icons/hicolor/scalable/apps/oiff-viewer.svg
 MimeType=image/x-oiff;
