@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo removing oiff...
 sudo rm /usr/local/bin/oiff
 

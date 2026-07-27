@@ -1,7 +1,30 @@
 [package]
 name = "oiff"
+description = "My slow and inefficient image file format, made for fun."
 version = "0.3.0"
 edition = "2024"
+authors = ["Owen Debiasio <owen.debiasio@gmail.com>"]
+license = "GPL-3.0-or-later"
+
+[package.metadata.deb]
+assets = [
+    ["target/release/oiff", "usr/bin/oiff", "755"],
+    ["LICENSE", "usr/share/doc/oiff/copyright", "644"],
+    ["oiff-viewer/oiff-viewer.desktop", "usr/share/applications/oiff-viewer.desktop", "644"],
+    ["oiff-viewer/oiff-viewer.svg", "usr/share/icons/hicolor/scalable/apps/oiff-viewer.svg", "644"],
+    ["thumbnailer/oiff.thumbnailer", "usr/share/thumbnailers/oiff.thumbnailer", "644"],
+    ["thumbnailer/oiff.xml", "usr/share/mime/packages/oiff.xml", "644"]
+]
+
+[package.metadata.generate-rpm]
+assets = [
+    { source = "target/release/oiff", dest = "/usr/bin/oiff", mode = "755" },
+    { source = "LICENSE", dest = "/usr/share/doc/oiff/copyright", mode = "644" },
+    { source = "oiff-viewer/oiff-viewer.desktop", dest = "/usr/share/applications/oiff-viewer.desktop", mode = "644" },
+    { source = "oiff-viewer/oiff-viewer.svg", dest = "/usr/share/icons/hicolor/scalable/apps/oiff-viewer.svg", mode = "644" },
+    { source = "thumbnailer/oiff.thumbnailer", dest = "/usr/share/thumbnailers/oiff.thumbnailer", mode = "644" },
+    { source = "thumbnailer/oiff.xml", dest = "/usr/share/mime/packages/oiff.xml", mode = "644" }
+]
 
 [dependencies]
 anyhow = "1.0.104"

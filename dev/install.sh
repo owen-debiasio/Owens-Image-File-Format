@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo building...
 rustup update
 cargo update
@@ -21,9 +23,10 @@ sudo cp thumbnailer/oiff.thumbnailer /usr/share/thumbnailers/oiff.thumbnailer
 echo copying thumbnailer xml...
 sudo cp thumbnailer/oiff.xml /usr/share/mime/packages/oiff.xml
 
-echo refreshing thumbnails...
+echo refreshing thumbnails and databases...
 
 rm -rf ~/.cache/thumbnails/*
 sudo update-mime-database /usr/share/mime
+sudo update-desktop-database /usr/share/applications
 
 echo installed!
