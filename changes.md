@@ -27,3 +27,4 @@
   - uninstall.sh
   - package.sh
 - Added support for `.zip`, `.deb` and `.rpm` packages for installation
+- Add description to oiff-viewer desktop icon
