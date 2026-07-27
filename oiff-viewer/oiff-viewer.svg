@@ -8,7 +8,7 @@
    version="1.1"
    id="svg1"
    inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
-   sodipodi:docname="logo.svg"
+   sodipodi:docname="oiff-viewer.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -117,13 +117,13 @@
      id="layer1">
     <text
        xml:space="preserve"
-       style="font-size:13.4259px;writing-mode:lr-tb;direction:ltr;opacity:0.450453;fill:#ffffff;fill-opacity:1;stroke-width:0.0251736"
+       style="font-size:13.4259px;writing-mode:lr-tb;direction:ltr;opacity:0.450453;fill:#ffffff;fill-opacity:1;stroke-width:0.0251736;-inkscape-font-specification:'Noto Sans';font-family:'Noto Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
        x="3.3439269"
        y="22.337952"
        id="text1"
        transform="scale(1.0553829,0.94752341)"><tspan
          id="tspan1"
-         style="font-size:13.4259px;fill:#ffffff;fill-opacity:1;stroke-width:0.0251736"
+         style="font-size:13.4259px;fill:#ffffff;fill-opacity:1;stroke-width:0.0251736;-inkscape-font-specification:'Noto Sans';font-family:'Noto Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
          x="3.3439269"
          y="22.337952"
          sodipodi:role="line">O</tspan></text>
@@ -142,13 +142,13 @@
        r="0.88807684" />
     <text
        xml:space="preserve"
-       style="font-size:13.4259px;writing-mode:lr-tb;direction:ltr;opacity:0.450453;fill:#ffffff;fill-opacity:1;stroke-width:0.0251736"
+       style="font-size:13.4259px;writing-mode:lr-tb;direction:ltr;opacity:0.450453;fill:#ffffff;fill-opacity:1;stroke-width:0.0251736;-inkscape-font-specification:'Noto Sans';font-family:'Noto Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
        x="12.273843"
        y="22.136524"
        id="text1-3"
        transform="scale(1.0553829,0.94752341)"><tspan
          id="tspan1-5"
-         style="font-size:13.4259px;fill:#ffffff;fill-opacity:1;stroke-width:0.0251736"
+         style="font-size:13.4259px;fill:#ffffff;fill-opacity:1;stroke-width:0.0251736;-inkscape-font-specification:'Noto Sans';font-family:'Noto Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
          x="12.273843"
          y="22.136524"
          sodipodi:role="line">IFF</tspan></text>
