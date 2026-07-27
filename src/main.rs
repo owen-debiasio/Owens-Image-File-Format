@@ -66,11 +66,15 @@ fn main() {
                 .unwrap_or_else(|e| error(&format!("Failed to generate thumbnail: {e}")));
         }
 
+        "--version" => println!("oiff {VERSION}"),
+
         _ => println!(
             "OIFF {VERSION}\n\
             Commands:\n\n\
             convert <input image path>, <output image path>\n\
-            display <image path>"
+            display <image path>\n\n\
+            Flags:\n\n\
+            --version"
         ),
     }
 }
