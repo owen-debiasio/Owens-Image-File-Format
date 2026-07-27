@@ -1,22 +1,8 @@
-use crate::{VERSION, error, fs::write_to_file};
+use crate::{
+    VERSION, error,
+    fs::{calculate_file_size, write_to_file},
+};
 use std::io::{Write, stdout};
-
-fn calculate_file_size(bytes: usize) -> String {
-    let units = ["Bytes", "KB", "MB", "GB", "TB"];
-    if bytes == 0 {
-        return "0 Bytes".to_string();
-    }
-
-    let mut size = bytes as f64;
-    let mut unit_index = 0;
-
-    while size >= 1024.0 && unit_index < units.len() - 1 {
-        size /= 1024.0;
-        unit_index += 1;
-    }
-
-    format!("{size:.2} {}", units[unit_index])
-}
 
 pub fn create_oiff_image(colors: Vec<String>, width: usize, height: usize, output_path: &str) {
     if !output_path.ends_with(".oiff") {
@@ -64,5 +50,5 @@ pub fn create_oiff_image(colors: Vec<String>, width: usize, height: usize, outpu
 
     write_to_file(output_path, &buffer, false);
 
-    println!("\n\nCreated image at \"{output_path}\"");
+    println!("\n\nCreated image at: {output_path}");
 }

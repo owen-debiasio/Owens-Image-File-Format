@@ -11,12 +11,12 @@ use crate::{
 pub fn display_oiff_image(path: &str) {
     println!("Loading image: \"{path}\"...");
 
-    if !path_exists(path) {
-        error(&format!("File does not exist: \"{path}\""));
-    }
-
     if !path.ends_with(".oiff") {
         error("Please load a \".oiff\" file.");
+    }
+
+    if !path_exists(path) {
+        error(&format!("File does not exist: \"{path}\""));
     }
 
     let file_contents = read_file_to_string(path);

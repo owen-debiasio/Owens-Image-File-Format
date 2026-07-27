@@ -8,8 +8,6 @@ mod display;
 mod fs;
 mod hex;
 mod options;
-
-// This is a hidden command where the user never needs to generate a thumbnail
 mod thumbnailer;
 
 pub static VERSION: &str = "v0.3.0";
@@ -38,10 +36,7 @@ fn main() {
     match root_arg.as_str() {
         "convert" => {
             let image_path = args.get(1).unwrap_or_else(|| error("Missing image path"));
-            let output_file = args
-                .get(2)
-                .map(String::as_str)
-                .unwrap_or_else(|| error("Missing output file"));
+            let output_file = args.get(2).map(String::as_str).unwrap_or("");
 
             convert(image_path, output_file)
                 .unwrap_or_else(|e| error(&format!("Failed to convert image: {e}")));
@@ -52,7 +47,6 @@ fn main() {
             display_oiff_image(image_path)
         }
 
-        // This is a hidden command where the user never needs to generate a thumbnail
         "thumbnail" => {
             let input_path = args
                 .get(1)
@@ -69,10 +63,11 @@ fn main() {
         "--version" => println!("oiff {VERSION}"),
 
         _ => println!(
-            "OIFF {VERSION}\n\
+            "OIFF {VERSION}\n\n\
             Commands:\n\n\
             convert <input image path>, <output image path>\n\
-            display <image path>\n\n\
+            display <.oiff image path>\n\
+            thumbnail <input image> <output image> <size (default: 128px)>\n\n\
             Flags:\n\n\
             --version"
         ),

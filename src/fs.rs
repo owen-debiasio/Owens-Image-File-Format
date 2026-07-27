@@ -1,4 +1,5 @@
 use std::{
+    env::current_dir,
     fs::{File, OpenOptions, create_dir_all, read_to_string, remove_file},
     io::Write,
     path::Path,
@@ -8,9 +9,33 @@ use anyhow::Context;
 
 use crate::error;
 
+pub fn get_current_dir() -> String {
+    current_dir()
+        .unwrap_or_else(|e| error(&format!("Failed to get current directory: {e}")))
+        .to_string_lossy()
+        .to_string()
+}
+
 pub fn path_exists(apparent_path: &str) -> bool {
     let path = expand_home_dir(apparent_path);
     Path::new(&path).exists()
+}
+
+pub fn calculate_file_size(bytes: usize) -> String {
+    let units = ["Bytes", "KB", "MB", "GB", "TB"];
+    if bytes == 0 {
+        return "0 Bytes".to_string();
+    }
+
+    let mut size = bytes as f64;
+    let mut unit_index = 0;
+
+    while size >= 1024.0 && unit_index < units.len() - 1 {
+        size /= 1024.0;
+        unit_index += 1;
+    }
+
+    format!("{size:.2} {}", units[unit_index])
 }
 
 pub fn read_file_to_string(file_path: &str) -> String {

@@ -19,17 +19,32 @@ pub fn generate_thumb(oiff_path: &str, output_path: &str, size: u32) -> Result<(
         ))
     });
 
+    let output_path_fmt = if !output_path.starts_with("/") || !output_path.starts_with("./") {
+        &format!("./{output_path}")
+    } else {
+        ""
+    };
+
+    println!("Creating thumbnail at: {output_path_fmt}...");
+
     let img = image::open(&temp_png_path)
         .unwrap_or_else(|e| error(&format!("Failed to open image \"{temp_png_path}\": {e}")));
+
+    println!("Scaling thumbnail to: {size}px");
+
     let thumbnail = img.thumbnail(size, size);
 
     create_file(output_path);
+
+    println!("Saving thumbnail...");
 
     thumbnail
         .save(expand_home_dir(output_path))
         .unwrap_or_else(|e| error(&format!("Failed to save thumbnail \"{output_path}\": {e}")));
 
     delete_file(&temp_png_path);
+
+    println!("Generation complete! Thumbnail is located at: {output_path_fmt}");
 
     Ok(())
 }

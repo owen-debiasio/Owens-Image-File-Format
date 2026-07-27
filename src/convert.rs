@@ -1,15 +1,15 @@
-use std::{env::var, error::Error};
+use std::error::Error;
 
 use crate::{
     create_image::create_oiff_image,
     error,
-    fs::{path_exists, read_file_to_string},
+    fs::{get_current_dir, path_exists, read_file_to_string},
     hex::{convert_colors_to_hex, parse_hex_color},
     options::{Dimension, get_image_dim, load_oiff_colors},
 };
 use image::{DynamicImage, RgbaImage};
 
-fn is_supported_image(path: &str) -> bool {
+fn is_non_oiff_supported_images(path: &str) -> bool {
     path.ends_with(".png")
         || path.ends_with(".jpg")
         || path.ends_with(".jpeg")
@@ -25,7 +25,7 @@ pub fn convert(input_path: &str, output_path: &str) -> Result<(), Box<dyn Error>
 
     if input_lower.ends_with(".oiff") {
         from_oiff(input_path, output_path)
-    } else if is_supported_image(&input_lower) {
+    } else if is_non_oiff_supported_images(&input_lower) {
         to_oiff(input_path, output_path)
     } else {
         error("Unsupported input format. Must be .png, .jpg, .jpeg, .webp, or .oiff");
@@ -40,10 +40,9 @@ fn to_oiff(image_path: &str, output_path: &str) -> Result<(), Box<dyn Error>> {
     }
 
     let resolved_output_path = if output_path.is_empty() {
-        format!(
-            "{}/output.oiff",
-            var("HOME").unwrap_or_else(|_| ".".to_string())
-        )
+        let standalone_file_name = image_path.split('.').next().unwrap_or("output");
+
+        format!("{}/{standalone_file_name}.oiff", get_current_dir())
     } else {
         output_path.to_string()
     };
@@ -71,8 +70,9 @@ fn to_oiff(image_path: &str, output_path: &str) -> Result<(), Box<dyn Error>> {
 
 pub fn from_oiff(oiff_path: &str, output_path: &str) -> Result<(), Box<dyn Error>> {
     let output_lower = output_path.to_lowercase();
-    if !is_supported_image(&output_lower) {
-        error("Output format for .oiff must be one of: .png, .jpg, .jpeg, .webp");
+    
+    if !is_non_oiff_supported_images(&output_lower) {
+        error("Please specify output file format. Must be .png, .jpg, .jpeg, or .webp");
     }
 
     println!("Input image:  {oiff_path}");
@@ -106,11 +106,11 @@ pub fn from_oiff(oiff_path: &str, output_path: &str) -> Result<(), Box<dyn Error
         } else {
             output_image.save(output_path)?;
         }
-
-        println!("Done!");
     } else {
         error("Failed to convert image.");
     }
+
+    println!("Conversion finished! Output: {output_path}");
 
     Ok(())
 }
