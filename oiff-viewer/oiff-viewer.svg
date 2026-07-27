@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="128mm"
-   height="128mm"
-   viewBox="0 0 128 128"
+   width="128"
+   height="128"
+   viewBox="0 0 33.866667 33.866666"
    version="1.1"
    id="svg1"
    inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
@@ -24,9 +24,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="1.0028457"
-     inkscape:cx="188.4637"
-     inkscape:cy="299.14872"
+     inkscape:zoom="4.0113828"
+     inkscape:cx="90.492486"
+     inkscape:cy="64.566264"
      inkscape:window-width="1920"
      inkscape:window-height="1004"
      inkscape:window-x="0"
@@ -79,7 +79,8 @@
        y1="109.75434"
        x2="47.489861"
        y2="77.566772"
-       gradientUnits="userSpaceOnUse" />
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.26446282,0,0,0.26446282,0,-0.13572956)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient5"
@@ -93,10 +94,10 @@
        inkscape:collect="always"
        xlink:href="#linearGradient15"
        id="linearGradient9"
-       x1="48.441087"
-       y1="66.12166"
+       x1="48.441086"
+       y1="66.121658"
        x2="115.14872"
-       y2="66.12166"
+       y2="66.121658"
        gradientUnits="userSpaceOnUse" />
   </defs>
   <g
@@ -104,11 +105,11 @@
      id="layer2"
      inkscape:label="Layer 2">
     <circle
-       style="fill:url(#linearGradient4);stroke-width:0.264583;fill-opacity:1"
+       style="fill:url(#linearGradient4);fill-opacity:1;stroke-width:0.0699724"
        id="path3"
-       cx="63.847477"
-       cy="64.111313"
-       r="63.847477" />
+       cx="16.885284"
+       cy="16.81933"
+       r="16.885284" />
   </g>
   <g
      inkscape:label="Layer 1"
@@ -116,40 +117,40 @@
      id="layer1">
     <text
        xml:space="preserve"
-       style="font-size:50.7668px;writing-mode:lr-tb;direction:ltr;fill:#ffffff;stroke-width:0.0951875;fill-opacity:1;opacity:0.45045313"
-       x="12.644223"
-       y="85.007027"
+       style="font-size:13.4259px;writing-mode:lr-tb;direction:ltr;opacity:0.450453;fill:#ffffff;fill-opacity:1;stroke-width:0.0251736"
+       x="3.3439269"
+       y="22.337952"
        id="text1"
        transform="scale(1.0553829,0.94752341)"><tspan
          id="tspan1"
-         style="font-size:50.7668px;stroke-width:0.0951875;fill:#ffffff;fill-opacity:1"
-         x="12.644223"
-         y="85.007027"
+         style="font-size:13.4259px;fill:#ffffff;fill-opacity:1;stroke-width:0.0251736"
+         x="3.3439269"
+         y="22.337952"
          sodipodi:role="line">O</tspan></text>
     <ellipse
-       style="fill:#ffffff;stroke-width:0.241012;fill-opacity:1;opacity:0.45045313"
+       style="opacity:0.450453;fill:#ffffff;fill-opacity:1;stroke-width:0.0637387"
        id="path1"
-       cx="37.133175"
-       cy="63.792881"
-       rx="4.8432226"
-       ry="8.0720377" />
+       cx="9.820344"
+       cy="16.735117"
+       rx="1.2808523"
+       ry="2.1347539" />
     <circle
-       style="fill:#ffffff;stroke-width:0.264583;fill-opacity:1;opacity:0.45045313"
+       style="opacity:0.450453;fill:#ffffff;fill-opacity:1;stroke-width:0.0699724"
        id="path2"
-       cx="8.4513502"
-       cy="76.005928"
-       r="3.3580403" />
+       cx="2.2350678"
+       cy="19.965014"
+       r="0.88807684" />
     <text
        xml:space="preserve"
-       style="font-size:50.7668px;writing-mode:lr-tb;direction:ltr;fill:#ffffff;stroke-width:0.0951875;fill-opacity:1;opacity:0.45045313"
-       x="46.410465"
-       y="84.245377"
+       style="font-size:13.4259px;writing-mode:lr-tb;direction:ltr;opacity:0.450453;fill:#ffffff;fill-opacity:1;stroke-width:0.0251736"
+       x="12.273843"
+       y="22.136524"
        id="text1-3"
        transform="scale(1.0553829,0.94752341)"><tspan
          id="tspan1-5"
-         style="font-size:50.7668px;stroke-width:0.0951875;fill:#ffffff;fill-opacity:1"
-         x="46.410465"
-         y="84.245377"
+         style="font-size:13.4259px;fill:#ffffff;fill-opacity:1;stroke-width:0.0251736"
+         x="12.273843"
+         y="22.136524"
          sodipodi:role="line">IFF</tspan></text>
   </g>
 </svg>

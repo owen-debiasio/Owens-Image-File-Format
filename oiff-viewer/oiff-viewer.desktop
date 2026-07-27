@@ -3,5 +3,5 @@
 Type=Application
 Name=OIFF Image Viewer
 Exec=oiff display %f
-Icon=oiff-viewer.svg
+Icon=/usr/share/icons/hicolor/128x128/apps/oiff-viewer.svg
 MimeType=image/x-oiff;
