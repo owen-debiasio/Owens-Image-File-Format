@@ -16,3 +16,4 @@
 - Enhanced error messages
 - Implement fixes for displaying transparent images
 - Added flag `--version` to show the version
+- Update `oiff-viewer` icon to be `.svg`
