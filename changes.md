@@ -22,3 +22,8 @@
 - Command `thumbnail` is now a visible command
 - In command `convert`, the output image path is no longer required, and is now
   automatic
+- Added proper dev scripts located in ./dev/:
+  - install.sh
+  - uninstall.sh
+  - package.sh
+- Added support for `.zip`, `.deb` and `.rpm` packages for installation
