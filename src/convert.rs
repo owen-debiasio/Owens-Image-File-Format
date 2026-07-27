@@ -70,7 +70,7 @@ fn to_oiff(image_path: &str, output_path: &str) -> Result<(), Box<dyn Error>> {
 
 pub fn from_oiff(oiff_path: &str, output_path: &str) -> Result<(), Box<dyn Error>> {
     let output_lower = output_path.to_lowercase();
-    
+
     if !is_non_oiff_supported_images(&output_lower) {
         error("Please specify output file format. Must be .png, .jpg, .jpeg, or .webp");
     }
