@@ -2,6 +2,7 @@
 [Desktop Entry]
 Type=Application
 Name=OIFF Image Viewer
+Comment=View .oiff images in a dedicated window
 Exec=oiff display %f
 Categories=Graphics;2DGraphics;Utility;
 Icon=/usr/share/icons/hicolor/scalable/apps/oiff-viewer.svg
