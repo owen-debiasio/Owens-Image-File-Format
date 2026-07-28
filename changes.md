@@ -28,3 +28,11 @@
   - package.sh
 - Added support for `.zip`, `.deb` and `.rpm` packages for installation
 - Add description to oiff-viewer desktop icon
+
+## v0.3.1
+
+- Fix displaying a `.oiff` image in `oiff-viewer` on x11 Linux desktops
+
+### Known issues
+
+- On Linux Mint, file thumbnails won't work when using `Nemo` on the Cinnamon x11 session
