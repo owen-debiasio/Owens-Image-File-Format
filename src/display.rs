@@ -112,13 +112,13 @@ pub fn display_oiff_image(path: &str) {
         error(&format!("Failed to display image: {e}"));
     });
 
+    window.set_target_fps(60);
+
     println!("Starting window...");
 
-    window
-        .update_with_buffer(&buffer, width, height)
-        .unwrap_or_else(|e| error(&format!("Failed to draw initial frame: {e}")));
-
     while window.is_open() {
-        window.update();
+        window
+            .update_with_buffer(&buffer, width, height)
+            .unwrap_or_else(|e| error(&format!("Failed to update window buffer: {e}")));
     }
 }
