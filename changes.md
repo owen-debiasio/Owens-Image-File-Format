@@ -35,4 +35,5 @@
 
 ### Known issues
 
-- On Linux Mint, file thumbnails won't work when using `Nemo` on the Cinnamon x11 session
+- On Linux Mint, file thumbnails won't work when using `Nemo` on the Cinnamon x11
+  session
