@@ -32,6 +32,7 @@
 ## v0.3.1
 
 - Fix displaying a `.oiff` image in `oiff-viewer` on x11 Linux desktops
+- Code optimizations
 
 ### Known issues
 
