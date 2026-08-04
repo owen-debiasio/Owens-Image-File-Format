@@ -31,19 +31,21 @@ pub fn display_oiff_image(path: &str) {
     println!("Initializing colors...");
 
     let colors = load_oiff_colors(path);
-    let total = width * height;
 
-    if colors.len() != total {
+    let color_amount_via_dims = width * height;
+    let color_amount_via_colors = colors.len();
+
+    if color_amount_via_colors != color_amount_via_dims {
         error(&format!(
-            "Color count mismatch! Expected {total} pixels ({width}x{height}), but got {}.",
-            colors.len()
+            "Color count mismatch! Expected {color_amount_via_dims} pixels ({width}x{height}), but got {}.",
+            color_amount_via_colors
         ));
     }
 
     let mut last_percent = 0;
 
-    for (color_index, color_str) in colors.iter().enumerate().take(total) {
-        let percent = ((color_index + 1) * 100) / total;
+    for (color_index, color_str) in colors.iter().enumerate().take(color_amount_via_dims) {
+        let percent = ((color_index + 1) * 100) / color_amount_via_dims;
 
         if percent > last_percent || color_index == 0 {
             print!("\r\x1B[KLoading color: {color_str} ({percent}%)");
